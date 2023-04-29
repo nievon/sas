@@ -26,6 +26,7 @@ Route::get('/where', function () {
 });
 //Ссылки админ панели
 Route::get('/admin', [adminpanel::class, 'admin'])->name('admin')->middleware('administartor');//Админ панель
+Route::get('/admin/orders', [adminpanel::class, 'orders'])->name('adminor')->middleware('administartor');//Админ панель
 Route::get('/admin/product', [adminpanel::class, 'prod'])->middleware('administartor');//Форма создания товара
 Route::post('/admin/product/create', [adminpanel::class, 'prodcreate'])->name('createprod'); // Отправка данных в базу данных
 Route::get('/admin/product/edit/{id}',[adminpanel::class,'prodedit'])->middleware('administartor')->name('productedit');//редактирование продукта занесеного в базу данных
@@ -55,5 +56,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/cart/add/{product_id}', [App\Http\Controllers\cartcontroller::class, 'add'])->name('cartAdd');
     Route::get('/cart/remove/{id}', [App\Http\Controllers\cartcontroller::class, 'remove'])->name('cartRemove');
     Route::post('cart/update/{id}',[App\Http\Controllers\cartcontroller::class,'update'])->name('cartUpadate');
+    Route::post('/cart/order', [App\Http\Controllers\cartcontroller::class, 'checkout'])->name('order.store');
 
 });

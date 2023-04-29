@@ -18,4 +18,9 @@ class product extends Model
         'model',
         'count'
     ];
+
+    public function orders()
+{
+    return $this->hasMany(Order::class);
+}
 }

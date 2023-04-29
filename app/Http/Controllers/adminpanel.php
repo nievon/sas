@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use \App\Models\product;
+use \App\Models\Order;
 use \App\Models\category;
 use Illuminate\Http\Request;
 
@@ -108,4 +108,12 @@ class adminpanel extends Controller
         $cat->save();
         return redirect(route('admin'));
     }
+
+    public function orders()
+{
+    $orders = Order::with(['user', 'product'])->orderByDesc('created_at')->paginate(10);
+
+    return view('adminor', compact('orders'));
+}
+
 }

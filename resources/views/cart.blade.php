@@ -32,7 +32,14 @@
                     <a  href="{{url('cart/remove')}}/{{$item->id}}" class="btn btn-danger">Удалить</a>
                         </div>
                 </div>
+                
                 @endforeach
+
+                <form action="{{ route('order.store') }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-primary">Сформировать заказ</button>
+</form>
+
             </div>
         </div>
     </div>
@@ -42,3 +49,4 @@
 
 
 @endsection
+!

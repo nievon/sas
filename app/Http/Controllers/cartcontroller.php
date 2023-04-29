@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\cart;
+use App\Models\Order;
 use App\Models\product;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,4 +68,23 @@ class cartcontroller extends Controller
         cart::where('id', $id)->delete();
         return redirect(url('/cart'));
     }
+
+    public function checkout(Request $request)
+{
+    $user_id = $request->user()->id;
+    $cart_items = Cart::where('user_id', $user_id)->get();
+
+    foreach ($cart_items as $item) {
+        $order = new Order();
+        $order->user_id = $user_id;
+        $order->product_id = $item->product_id;
+        $order->save();
+    }
+
+    // Clear the cart
+    Cart::where('user_id', $user_id)->delete();
+
+    return redirect()->back()->with('success', 'Your order has been placed successfully.');
+}
+
 }
