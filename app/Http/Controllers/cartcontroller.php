@@ -7,6 +7,7 @@ use App\Models\cart;
 use App\Models\Order;
 use App\Models\product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class cartcontroller extends Controller
 {
@@ -71,6 +72,11 @@ class cartcontroller extends Controller
 
     public function checkout(Request $request)
 {
+    $user = Auth::user();
+    if (!Hash::check($request->input('password'), $user->password)){
+        return redirect()->back()->with('error', 'вы ввели неправильный пароль.');
+    }
+    
     $user_id = $request->user()->id;
     $cart_items = Cart::where('user_id', $user_id)->get();
 
@@ -84,7 +90,7 @@ class cartcontroller extends Controller
     // Clear the cart
     Cart::where('user_id', $user_id)->delete();
 
-    return redirect()->back()->with('success', 'Your order has been placed successfully.');
+    return redirect()->back()->with('success', 'you.');
 }
 
 }

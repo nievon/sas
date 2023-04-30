@@ -1,5 +1,4 @@
-AddDefaultCharset utf-8
-RewriteEngine on
-RewriteCond %{HTTPS}_%{HTTP_HOST} ^(?|off_(?:www\.)?(.*)|on_www\.(.*)) [NC]
-RewriteRule .* https://%1/$0 [R=301,L]
-RewriteRule ^(.*)$ /public/$0
+RewriteEngine On 
+RewriteCond %{HTTPS} on
+RewriteRule (.*) http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+RewriteRule ^(.*)$ public/$1 [L]
